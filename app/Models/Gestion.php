@@ -21,4 +21,5 @@ class Gestion extends Model
     ];
 
     public function paciente(){ return $this->belongsTo(Paciente::class); }
+      public function uploads(){ return $this->belongsToMany(Upload::class)->withTimestamps(); }
 }

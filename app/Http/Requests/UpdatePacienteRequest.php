@@ -15,6 +15,8 @@ class UpdatePacienteRequest extends FormRequest
     {
         return [
             'nombre' => ['sometimes','string','max:255'],
+            'upload_ids' => ['sometimes','array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }

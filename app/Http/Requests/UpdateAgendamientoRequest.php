@@ -39,6 +39,8 @@ class UpdateAgendamientoRequest extends FormRequest
             'consentimiento' => ['sometimes','boolean'],
             'total'          => ['sometimes','numeric','min:0'],
             'observaciones'  => ['sometimes','nullable','string'],
+            'upload_ids' => ['sometimes','array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }

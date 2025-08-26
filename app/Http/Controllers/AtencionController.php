@@ -12,25 +12,41 @@ class AtencionController extends Controller
     public function index()
     {
         return AtencionResource::collection(
-            Atencion::with(['paciente','tutor','especie'])->paginate()
+            Atencion::with(['paciente','tutor','especie','uploads'])->paginate()
         );
     }
 
     public function store(StoreAtencionRequest $request)
     {
-        $atencion = Atencion::create($request->validated());
-        return (new AtencionResource($atencion))->response()->setStatusCode(201);
+        $data = $request->validated();
+        $uploads = $data['upload_ids'] ?? [];
+        unset($data['upload_ids']);
+
+        $atencion = Atencion::create($data);
+        if (!empty($uploads)) {
+            $atencion->uploads()->sync($uploads);
+        }
+
+        return (new AtencionResource($atencion->load('uploads')))->response()->setStatusCode(201);
     }
 
     public function show(Atencion $atencione)
     {
-        return new AtencionResource($atencione->load(['paciente','tutor','especie']));
+        return new AtencionResource($atencione->load(['paciente','tutor','especie','uploads']));
     }
 
     public function update(UpdateAtencionRequest $request, Atencion $atencione)
     {
-        $atencione->update($request->validated());
-        return new AtencionResource($atencione->load(['paciente','tutor','especie']));
+        $data = $request->validated();
+        $uploads = $data['upload_ids'] ?? null;
+        unset($data['upload_ids']);
+
+        $atencione->update($data);
+        if (!is_null($uploads)) {
+            $atencione->uploads()->sync($uploads);
+        }
+
+        return new AtencionResource($atencione->load(['paciente','tutor','especie','uploads']));
     }
 
     public function destroy(Atencion $atencione)

@@ -19,6 +19,8 @@ class StoreGestionRequest extends FormRequest
             'autor'           => ['nullable','string','max:255'],
             'proximo_llamado' => ['nullable','date'],
             'observacion'     => ['nullable','string'],
+            'upload_ids' => ['array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }

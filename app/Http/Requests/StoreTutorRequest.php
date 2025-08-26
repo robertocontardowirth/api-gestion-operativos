@@ -20,6 +20,8 @@ class StoreTutorRequest extends FormRequest
             'email'      => ['nullable','email','max:255'],
             'telefono_1' => ['nullable','string','max:50'],
             'telefono_2' => ['nullable','string','max:50'],
+            'upload_ids' => ['array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }

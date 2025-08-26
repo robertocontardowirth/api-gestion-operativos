@@ -26,4 +26,5 @@ class Atencion extends Model
     public function paciente(){ return $this->belongsTo(Paciente::class); }
     public function tutor(){ return $this->belongsTo(Tutor::class); }
     public function especie(){ return $this->belongsTo(Especie::class); }
+      public function uploads(){ return $this->belongsToMany(Upload::class)->withTimestamps(); }
 }

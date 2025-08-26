@@ -11,24 +11,40 @@ class TutorController extends Controller
 {
     public function index()
     {
-        return TutorResource::collection(Tutor::paginate());
+        return TutorResource::collection(Tutor::with('uploads')->paginate());
     }
 
     public function store(StoreTutorRequest $request)
     {
-        $tutor = Tutor::create($request->validated());
-        return (new TutorResource($tutor))->response()->setStatusCode(201);
+        $data = $request->validated();
+        $uploads = $data['upload_ids'] ?? [];
+        unset($data['upload_ids']);
+
+        $tutor = Tutor::create($data);
+        if (!empty($uploads)) {
+            $tutor->uploads()->sync($uploads);
+        }
+
+        return (new TutorResource($tutor->load('uploads')))->response()->setStatusCode(201);
     }
 
     public function show(Tutor $tutore) // nombre por convención
     {
-        return new TutorResource($tutore);
+        return new TutorResource($tutore->load('uploads'));
     }
 
     public function update(UpdateTutorRequest $request, Tutor $tutore)
     {
-        $tutore->update($request->validated());
-        return new TutorResource($tutore);
+        $data = $request->validated();
+        $uploads = $data['upload_ids'] ?? null;
+        unset($data['upload_ids']);
+
+        $tutore->update($data);
+        if (!is_null($uploads)) {
+            $tutore->uploads()->sync($uploads);
+        }
+
+        return new TutorResource($tutore->load('uploads'));
     }
 
     public function destroy(Tutor $tutore)

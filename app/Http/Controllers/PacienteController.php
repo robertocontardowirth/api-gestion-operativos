@@ -11,24 +11,40 @@ class PacienteController extends Controller
 {
     public function index()
     {
-        return PacienteResource::collection(Paciente::paginate());
+        return PacienteResource::collection(Paciente::with('uploads')->paginate());
     }
 
     public function store(StorePacienteRequest $request)
     {
-        $paciente = Paciente::create($request->validated());
-        return (new PacienteResource($paciente))->response()->setStatusCode(201);
+        $data = $request->validated();
+        $uploads = $data['upload_ids'] ?? [];
+        unset($data['upload_ids']);
+
+        $paciente = Paciente::create($data);
+        if (!empty($uploads)) {
+            $paciente->uploads()->sync($uploads);
+        }
+
+        return (new PacienteResource($paciente->load('uploads')))->response()->setStatusCode(201);
     }
 
     public function show(Paciente $paciente)
     {
-        return new PacienteResource($paciente);
+        return new PacienteResource($paciente->load('uploads'));
     }
 
     public function update(UpdatePacienteRequest $request, Paciente $paciente)
     {
-        $paciente->update($request->validated());
-        return new PacienteResource($paciente);
+        $data = $request->validated();
+        $uploads = $data['upload_ids'] ?? null;
+        unset($data['upload_ids']);
+
+        $paciente->update($data);
+        if (!is_null($uploads)) {
+            $paciente->uploads()->sync($uploads);
+        }
+
+        return new PacienteResource($paciente->load('uploads'));
     }
 
     public function destroy(Paciente $paciente)

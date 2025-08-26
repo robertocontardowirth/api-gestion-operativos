@@ -21,6 +21,9 @@ class TutorResource extends JsonResource
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
             ],
+            'relationships' => [
+                'uploads' => UploadResource::collection($this->whenLoaded('uploads')),
+            ],
         ];
     }
 }

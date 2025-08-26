@@ -11,24 +11,40 @@ class PagoController extends Controller
 {
     public function index()
     {
-        return PagoResource::collection(Pago::with('tipoPago')->paginate());
+        return PagoResource::collection(Pago::with(['tipoPago','uploads'])->paginate());
     }
 
     public function store(StorePagoRequest $request)
     {
-        $pago = Pago::create($request->validated());
-        return (new PagoResource($pago))->response()->setStatusCode(201);
+        $data = $request->validated();
+        $uploads = $data['upload_ids'] ?? [];
+        unset($data['upload_ids']);
+
+        $pago = Pago::create($data);
+        if (!empty($uploads)) {
+            $pago->uploads()->sync($uploads);
+        }
+
+        return (new PagoResource($pago->load(['tipoPago','uploads'])))->response()->setStatusCode(201);
     }
 
     public function show(Pago $pago)
     {
-        return new PagoResource($pago->load('tipoPago'));
+        return new PagoResource($pago->load(['tipoPago','uploads']));
     }
 
     public function update(UpdatePagoRequest $request, Pago $pago)
     {
-        $pago->update($request->validated());
-        return new PagoResource($pago->load('tipoPago'));
+        $data = $request->validated();
+        $uploads = $data['upload_ids'] ?? null;
+        unset($data['upload_ids']);
+
+        $pago->update($data);
+        if (!is_null($uploads)) {
+            $pago->uploads()->sync($uploads);
+        }
+
+        return new PagoResource($pago->load(['tipoPago','uploads']));
     }
 
     public function destroy(Pago $pago)

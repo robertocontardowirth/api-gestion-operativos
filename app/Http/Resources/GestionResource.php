@@ -21,6 +21,7 @@ class GestionResource extends JsonResource
             ],
             'relationships' => [
                 'paciente' => new PacienteResource($this->whenLoaded('paciente')),
+                'uploads'  => UploadResource::collection($this->whenLoaded('uploads')),
             ],
         ];
     }

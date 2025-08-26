@@ -25,6 +25,7 @@ class AtencionResource extends JsonResource
                 'paciente' => new PacienteResource($this->whenLoaded('paciente')),
                 'tutor'    => new TutorResource($this->whenLoaded('tutor')),
                 'especie'  => new EspecieResource($this->whenLoaded('especie')),
+                'uploads'  => UploadResource::collection($this->whenLoaded('uploads')),
             ],
         ];
     }

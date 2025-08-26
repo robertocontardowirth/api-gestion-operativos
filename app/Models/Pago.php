@@ -19,4 +19,5 @@ class Pago extends Model
     ];
 
     public function tipoPago(){ return $this->belongsTo(TipoPago::class, 'tipo_pago_id'); }
+      public function uploads(){ return $this->belongsToMany(Upload::class)->withTimestamps(); }
 }

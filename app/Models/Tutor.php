@@ -17,4 +17,5 @@ class Tutor extends Model
 
     // Opcional
     public function atenciones(){ return $this->hasMany(Atencion::class); }
+      public function uploads(){ return $this->belongsToMany(Upload::class)->withTimestamps(); }
 }

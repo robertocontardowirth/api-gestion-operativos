@@ -16,27 +16,43 @@ class AgendamientoController extends Controller
     public function index()
     {
         return AgendamientoResource::collection(
-            Agendamiento::with(['paciente','tutor','especie','fase'])->paginate()
+            Agendamiento::with(['paciente','tutor','especie','fase','uploads'])->paginate()
         );
     }
 
     public function store(StoreAgendamientoRequest $request)
     {
-        $ag = Agendamiento::create($request->validated());
-        return (new AgendamientoResource($ag))->response()->setStatusCode(201);
+        $data = $request->validated();
+        $uploads = $data['upload_ids'] ?? [];
+        unset($data['upload_ids']);
+
+        $ag = Agendamiento::create($data);
+        if (!empty($uploads)) {
+            $ag->uploads()->sync($uploads);
+        }
+
+        return (new AgendamientoResource($ag->load('uploads')))->response()->setStatusCode(201);
     }
 
     public function show(Agendamiento $agendamiento)
     {
         return new AgendamientoResource(
-            $agendamiento->load(['paciente','tutor','especie','fase','productos','servicios','pagos'])
+            $agendamiento->load(['paciente','tutor','especie','fase','productos','servicios','pagos','uploads'])
         );
     }
 
     public function update(UpdateAgendamientoRequest $request, Agendamiento $agendamiento)
     {
-        $agendamiento->update($request->validated());
-        return new AgendamientoResource($agendamiento->fresh()->load(['paciente','tutor','especie','fase']));
+        $data = $request->validated();
+        $uploads = $data['upload_ids'] ?? null;
+        unset($data['upload_ids']);
+
+        $agendamiento->update($data);
+        if (!is_null($uploads)) {
+            $agendamiento->uploads()->sync($uploads);
+        }
+
+        return new AgendamientoResource($agendamiento->fresh()->load(['paciente','tutor','especie','fase','uploads']));
     }
 
     public function destroy(Agendamiento $agendamiento)

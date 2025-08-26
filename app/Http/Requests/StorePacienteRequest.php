@@ -15,6 +15,8 @@ class StorePacienteRequest extends FormRequest
     {
         return [
             'nombre' => ['required','string','max:255'],
+            'upload_ids' => ['array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }

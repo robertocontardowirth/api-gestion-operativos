@@ -16,4 +16,5 @@ class Paciente extends Model
     // Opcionales
     public function atenciones(){ return $this->hasMany(Atencion::class); }
     public function gestiones(){ return $this->hasMany(Gestion::class); }
+      public function uploads(){ return $this->belongsToMany(Upload::class)->withTimestamps(); }
 }

@@ -23,4 +23,5 @@ class Agendamiento extends Model {
   public function productos(){ return $this->belongsToMany(Producto::class)->withPivot(['cantidad','precio'])->withTimestamps(); }
   public function servicios(){ return $this->belongsToMany(Servicio::class)->withPivot(['cantidad','precio'])->withTimestamps(); }
   public function pagos(){ return $this->belongsToMany(Pago::class)->withTimestamps(); }
+  public function uploads(){ return $this->belongsToMany(Upload::class)->withTimestamps(); }
 }
