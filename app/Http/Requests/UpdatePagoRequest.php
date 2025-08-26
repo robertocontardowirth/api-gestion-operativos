@@ -18,6 +18,8 @@ class UpdatePagoRequest extends FormRequest
             'monto'        => ['sometimes','numeric','min:0'],
             'fecha_pago'   => ['sometimes','nullable','date'],
             'observacion'  => ['sometimes','nullable','string','max:255'],
+            'upload_ids' => ['sometimes','array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }

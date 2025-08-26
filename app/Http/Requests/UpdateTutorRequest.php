@@ -20,6 +20,8 @@ class UpdateTutorRequest extends FormRequest
             'email'      => ['sometimes','nullable','email','max:255'],
             'telefono_1' => ['sometimes','nullable','string','max:50'],
             'telefono_2' => ['sometimes','nullable','string','max:50'],
+            'upload_ids' => ['sometimes','array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }

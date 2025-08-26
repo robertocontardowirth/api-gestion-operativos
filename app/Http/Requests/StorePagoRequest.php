@@ -18,6 +18,8 @@ class StorePagoRequest extends FormRequest
             'monto'        => ['required','numeric','min:0'],
             'fecha_pago'   => ['nullable','date'],
             'observacion'  => ['nullable','string','max:255'],
+            'upload_ids' => ['array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }

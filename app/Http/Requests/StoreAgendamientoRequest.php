@@ -39,6 +39,8 @@ class StoreAgendamientoRequest extends FormRequest
             'consentimiento' => ['boolean'],
             'total'          => ['numeric','min:0'],
             'observaciones'  => ['nullable','string'],
+            'upload_ids' => ['array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }

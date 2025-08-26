@@ -23,6 +23,8 @@ class UpdateAtencionRequest extends FormRequest
             'anestesia_id' => ['sometimes','nullable','integer','min:0'],
             'anamnesis'    => ['sometimes','nullable','string'],
             'observaciones'=> ['sometimes','nullable','string'],
+            'upload_ids' => ['sometimes','array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }

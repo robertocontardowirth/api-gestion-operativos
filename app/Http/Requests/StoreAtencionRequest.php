@@ -23,6 +23,8 @@ class StoreAtencionRequest extends FormRequest
             'anestesia_id' => ['nullable','integer','min:0'],
             'anamnesis'    => ['nullable','string'],
             'observaciones'=> ['nullable','string'],
+            'upload_ids' => ['array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }

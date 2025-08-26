@@ -20,6 +20,7 @@ class PagoResource extends JsonResource
             ],
             'relationships' => [
                 'tipo_pago' => new TipoPagoResource($this->whenLoaded('tipoPago')),
+                'uploads'   => UploadResource::collection($this->whenLoaded('uploads')),
             ],
         ];
     }

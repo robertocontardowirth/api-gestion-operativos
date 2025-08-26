@@ -4,20 +4,20 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PacienteResource extends JsonResource
+class UploadResource extends JsonResource
 {
     public function toArray($request): array
     {
         return [
-            'type' => 'pacientes',
+            'type' => 'uploads',
             'id' => (string) $this->id,
             'attributes' => [
-                'nombre' => $this->nombre,
+                'filename' => $this->filename,
+                'url' => $this->url,
+                'mime_type' => $this->mime_type,
+                'size' => $this->size,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
-            ],
-            'relationships' => [
-                'uploads' => UploadResource::collection($this->whenLoaded('uploads')),
             ],
         ];
     }

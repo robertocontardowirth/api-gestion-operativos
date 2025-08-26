@@ -19,6 +19,8 @@ class UpdateGestionRequest extends FormRequest
             'autor'           => ['sometimes','nullable','string','max:255'],
             'proximo_llamado' => ['sometimes','nullable','date'],
             'observacion'     => ['sometimes','nullable','string'],
+            'upload_ids' => ['sometimes','array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }
