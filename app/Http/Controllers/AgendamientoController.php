@@ -16,7 +16,7 @@ class AgendamientoController extends Controller
     public function index()
     {
         return AgendamientoResource::collection(
-            Agendamiento::with(['paciente','tutor','especie','fase','uploads'])->paginate()
+            Agendamiento::with(['paciente','tutor','especie','fase','uploads','operativos'])->paginate()
         );
     }
 
@@ -37,7 +37,7 @@ class AgendamientoController extends Controller
     public function show(Agendamiento $agendamiento)
     {
         return new AgendamientoResource(
-            $agendamiento->load(['paciente','tutor','especie','fase','productos','servicios','pagos','uploads'])
+            $agendamiento->load(['paciente','tutor','especie','fase','productos','servicios','pagos','uploads','operativos'])
         );
     }
 
@@ -52,7 +52,7 @@ class AgendamientoController extends Controller
             $agendamiento->uploads()->sync($uploads);
         }
 
-        return new AgendamientoResource($agendamiento->fresh()->load(['paciente','tutor','especie','fase','uploads']));
+        return new AgendamientoResource($agendamiento->fresh()->load(['paciente','tutor','especie','fase','uploads','operativos']));
     }
 
     public function destroy(Agendamiento $agendamiento)

@@ -40,6 +40,7 @@ class AgendamientoResource extends JsonResource
                 'servicios' => ServicioResource::collection($this->whenLoaded('servicios')),
                 'pagos'     => PagoResource::collection($this->whenLoaded('pagos')),
                 'uploads'   => UploadResource::collection($this->whenLoaded('uploads')),
+                'operativos' => OperativoResource::collection($this->whenLoaded('operativos')),
             ],
         ];
     }

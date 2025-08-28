@@ -21,6 +21,7 @@ use App\Http\Controllers\OrigenController;
 use App\Http\Controllers\GestionController;
 use App\Http\Controllers\AgendamientoController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\OperativoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,6 +92,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::apiResource('gestiones', GestionController::class)->middleware('module:calendario');
         Route::apiResource('uploads', UploadController::class)->middleware('module:uploads');
+        Route::apiResource('operativos', OperativoController::class)->middleware('module:operativos');
 
         // -------- Agendamientos + vínculos M:M --------
         Route::apiResource('agendamientos', AgendamientoController::class)->middleware('module:calendario');

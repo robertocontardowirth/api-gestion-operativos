@@ -20,8 +20,9 @@ class Agendamiento extends Model {
   public function atencion(){ return $this->belongsTo(Atencion::class); }
   public function especie(){ return $this->belongsTo(Especie::class); }
 
-  public function productos(){ return $this->belongsToMany(Producto::class)->withPivot(['cantidad','precio'])->withTimestamps(); }
-  public function servicios(){ return $this->belongsToMany(Servicio::class)->withPivot(['cantidad','precio'])->withTimestamps(); }
-  public function pagos(){ return $this->belongsToMany(Pago::class)->withTimestamps(); }
-  public function uploads(){ return $this->belongsToMany(Upload::class)->withTimestamps(); }
-}
+   public function productos(){ return $this->belongsToMany(Producto::class)->withPivot(['cantidad','precio'])->withTimestamps(); }
+   public function servicios(){ return $this->belongsToMany(Servicio::class)->withPivot(['cantidad','precio'])->withTimestamps(); }
+   public function pagos(){ return $this->belongsToMany(Pago::class)->withTimestamps(); }
+   public function uploads(){ return $this->belongsToMany(Upload::class)->withTimestamps(); }
+   public function operativos(){ return $this->belongsToMany(Operativo::class, 'operativo_agendamiento')->withTimestamps(); }
+  }
