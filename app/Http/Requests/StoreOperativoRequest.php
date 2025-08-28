@@ -18,8 +18,11 @@ class StoreOperativoRequest extends FormRequest
             'descripcion' => ['required','string','max:255'],
             'fecha_inicio' => ['required','date'],
             'fecha_termino' => ['required','date'],
+            'observaciones' => ['nullable','string'],
             'agendamiento_ids' => ['array'],
             'agendamiento_ids.*' => ['exists:agendamientos,id'],
+            'upload_ids' => ['array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }

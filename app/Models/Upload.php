@@ -17,4 +17,5 @@ class Upload extends Model
     public function pacientes(){ return $this->belongsToMany(Paciente::class)->withTimestamps(); }
     public function tutores(){ return $this->belongsToMany(Tutor::class)->withTimestamps(); }
     public function gestiones(){ return $this->belongsToMany(Gestion::class)->withTimestamps(); }
+    public function operativos(){ return $this->belongsToMany(Operativo::class)->withTimestamps(); }
 }
