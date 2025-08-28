@@ -11,40 +11,48 @@ class OperativoController extends Controller
 {
     public function index()
     {
-        return OperativoResource::collection(Operativo::with('agendamientos')->paginate());
+        return OperativoResource::collection(Operativo::with(['agendamientos','uploads'])->paginate());
     }
 
     public function store(StoreOperativoRequest $request)
     {
         $data = $request->validated();
         $agendamientos = $data['agendamiento_ids'] ?? [];
-        unset($data['agendamiento_ids']);
+        $uploads = $data['upload_ids'] ?? [];
+        unset($data['agendamiento_ids'], $data['upload_ids']);
 
         $operativo = Operativo::create($data);
         if (!empty($agendamientos)) {
             $operativo->agendamientos()->sync($agendamientos);
         }
+        if (!empty($uploads)) {
+            $operativo->uploads()->sync($uploads);
+        }
 
-        return (new OperativoResource($operativo->load('agendamientos')))->response()->setStatusCode(201);
+        return (new OperativoResource($operativo->load(['agendamientos','uploads'])))->response()->setStatusCode(201);
     }
 
     public function show(Operativo $operativo)
     {
-        return new OperativoResource($operativo->load('agendamientos'));
+        return new OperativoResource($operativo->load(['agendamientos','uploads']));
     }
 
     public function update(UpdateOperativoRequest $request, Operativo $operativo)
     {
         $data = $request->validated();
         $agendamientos = $data['agendamiento_ids'] ?? null;
-        unset($data['agendamiento_ids']);
+        $uploads = $data['upload_ids'] ?? null;
+        unset($data['agendamiento_ids'], $data['upload_ids']);
 
         $operativo->update($data);
         if (!is_null($agendamientos)) {
             $operativo->agendamientos()->sync($agendamientos);
         }
+        if (!is_null($uploads)) {
+            $operativo->uploads()->sync($uploads);
+        }
 
-        return new OperativoResource($operativo->load('agendamientos'));
+        return new OperativoResource($operativo->load(['agendamientos','uploads']));
     }
 
     public function destroy(Operativo $operativo)

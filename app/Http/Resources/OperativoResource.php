@@ -16,11 +16,13 @@ class OperativoResource extends JsonResource
                 'descripcion' => $this->descripcion,
                 'fecha_inicio' => $this->fecha_inicio,
                 'fecha_termino' => $this->fecha_termino,
+                'observaciones' => $this->observaciones,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
             ],
             'relationships' => [
                 'agendamientos' => AgendamientoResource::collection($this->whenLoaded('agendamientos')),
+                'uploads' => UploadResource::collection($this->whenLoaded('uploads')),
             ],
         ];
     }

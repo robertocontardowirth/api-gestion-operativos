@@ -18,8 +18,11 @@ class UpdateOperativoRequest extends FormRequest
             'descripcion' => ['sometimes','string','max:255'],
             'fecha_inicio' => ['sometimes','date'],
             'fecha_termino' => ['sometimes','date'],
+            'observaciones' => ['sometimes','nullable','string'],
             'agendamiento_ids' => ['array'],
             'agendamiento_ids.*' => ['exists:agendamientos,id'],
+            'upload_ids' => ['array'],
+            'upload_ids.*' => ['exists:uploads,id'],
         ];
     }
 }
